@@ -21,13 +21,13 @@ public class BoidSimulation extends ApplicationAdapter {
     private OrthographicCamera camera;
     private Texture boidTexture;
 
-    private Swarm swarm = new Swarm();
+    private Swarm swarm;
     private Boid boid;
 
     private SpriteBatch batch;
 
-    private int width = 1600;
-    private int height = 1200;
+    public static final int WIDTH = 1600;
+    public static final int HEIGHT = 1200;
 
     Sprite sprite;
 
@@ -59,8 +59,9 @@ public class BoidSimulation extends ApplicationAdapter {
         sprite = new Sprite(boidTexture);
 
         batch = new SpriteBatch();
-        boid = new FollowMouseDecorator(new SimpleBoid(sprite, new Vector2(((float) width/2), (float) height / 2 ),new Vector2(20, 20)));
+        boid = new SimpleBoid(sprite, new Vector2(((float) WIDTH/2), (float) HEIGHT / 2 ));
 
+        swarm = BoidFactory.swarmFromBoid(boid, 1);
         //DEBUG
         debugRenderer = new ShapeRenderer();
     }
@@ -73,14 +74,16 @@ public class BoidSimulation extends ApplicationAdapter {
         batch.setProjectionMatrix(camera.combined);
 
         //swarm.updateAll(Gdx.graphics.getDeltaTime());
-        boid.update(Gdx.graphics.getDeltaTime());
+        //boid.update(Gdx.graphics.getDeltaTime());
+        swarm.updateAll(Gdx.graphics.getDeltaTime());
         batch.begin();
-        boid.render(batch);
+        //boid.render(batch);
+        swarm.renderAll(batch);
         batch.end();
 
        Vector2 position = new Vector2(sprite.getX(), sprite.getY());
        Vector2 absOrigin = new Vector2(sprite.getX() + sprite.getOriginX(), sprite.getY() + sprite.getOriginY());
-     Vector2 direction = new Vector2(sprite.getX()+boid.getVelocity().x, sprite.getY()+boid.getVelocity().y);
+       Vector2 direction = new Vector2(sprite.getX()+boid.getVelocity().x, sprite.getY()+boid.getVelocity().y);
        drawDebugLine(new Vector2(0,0), position, camera.combined);
        drawDebugLine(position, absOrigin, 2, Color.GREEN, camera.combined);
        drawDebugLine(position, direction, 3, Color.BLUE, camera.combined);

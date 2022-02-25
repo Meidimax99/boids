@@ -26,14 +26,21 @@ public class SimpleBoid implements Boid {
     private Vector2 acceleration;
 
 
+
     public SimpleBoid(Sprite sprite, Vector2 position, Vector2 velocity) {
-        this.sprite = sprite;
+        this.sprite = new Sprite(sprite);
         this.sprite.setX(position.x);
         this.sprite.setY(position.y);
         this.velocity = velocity;
         this.acceleration = new Vector2();
 
+        this.hitbox = new Circle(position, sprite.getWidth()/2);
+
         sprite.setOrigin(sprite.getWidth() / 2, sprite.getHeight() / 2);
+    }
+
+    public SimpleBoid(Sprite sprite, Vector2 position) {
+        new SimpleBoid(sprite, position, new Vector2(0,0));
     }
 
     public Vector2 getPosition() {
@@ -61,10 +68,28 @@ public class SimpleBoid implements Boid {
         this.acceleration = acceleration;
     }
 
-    public void update(float deltaTime) {
-        this.sprite.setRotation(this.velocity.angleDeg() - 90);
+    @Override
+    public void updateAcceleration(float deltaTime) {
+
+    }
+
+    @Override
+    public void updateVelocity(float deltaTime) {
+
+    }
+
+
+    //TODO Default impl problem???
+    @Override
+    public void updatePosition(float deltaTime) {
+        System.out.println(this.sprite == null);
         this.sprite.setX(sprite.getX() + velocity.x * deltaTime);
         this.sprite.setY(sprite.getY() + velocity.y * deltaTime);
+    }
+
+    @Override
+    public void updateRotation(float deltaTime) {
+        this.sprite.setRotation(this.velocity.angleDeg() - 90);
     }
 
     private static void drawSprite(SpriteBatch spriteBatch, Sprite sprite) {
@@ -75,4 +100,21 @@ public class SimpleBoid implements Boid {
         drawSprite(batch, sprite);
     }
 
+    @Override
+    public Boid duplicate() {
+        Random random = new Random();
+        Vector2 randomPosition = new Vector2(random.nextFloat()* BoidSimulation.WIDTH, random.nextFloat() * BoidSimulation.HEIGHT);
+        Boid boid = new SimpleBoid(new Sprite(sprite), randomPosition);
+        System.out.println(boid.getPosition() == null);
+        return boid;
+    }
+
+    //Add to abstract boid class - > like thread for runnable
+//    @Override
+//    public void update(float deltaTime) {
+//        updateAcceleration(deltaTime);
+//        updateVelocity(deltaTime);
+//        updatePosition(deltaTime);
+//        updateRotation(deltaTime);
+//    }
 }

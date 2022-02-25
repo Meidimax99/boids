@@ -10,15 +10,14 @@ public class BoidFactory {
         return null;
     }
 
-    public static Swarm swarmFromBoid(SimpleBoid boid, int number) {
-        if(number < 0) {
+    public static Swarm swarmFromBoid(Boid boid, int number) {
+        if (number < 0) {
             number = 0;
         }
-
-        List<SimpleBoid> boidList = new LinkedList<SimpleBoid>();
-        for(int i = 0; i < number; i++) {
-            break;
+        Swarm swarm = new Swarm();
+        for (int i = 0; i < number; i++) {
+            swarm.addBoid(boid.duplicate());
         }
-        return new Swarm();
+        return swarm;
     }
 }

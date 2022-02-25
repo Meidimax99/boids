@@ -27,6 +27,26 @@ public class BoidDecorator implements Boid {
     }
 
     @Override
+    public void updateAcceleration(float deltaTime) {
+        component.updateAcceleration(deltaTime);
+    }
+
+    @Override
+    public void updateVelocity(float deltaTime) {
+        component.updateVelocity(deltaTime);
+    }
+
+    @Override
+    public void updatePosition(float deltaTime) {
+        component.updatePosition(deltaTime);
+    }
+
+    @Override
+    public void updateRotation(float deltaTime) {
+        component.updateRotation(deltaTime);
+    }
+
+    @Override
     public void render(SpriteBatch batch) {
         component.render(batch);
     }
@@ -59,5 +79,11 @@ public class BoidDecorator implements Boid {
     @Override
     public void setAcceleration(Vector2 acceleration) {
         component.setAcceleration(acceleration);
+    }
+
+    //TODO wrap in new instance of the decorator
+    @Override
+    public Boid duplicate() {
+        return new BoidDecorator(component.duplicate());
     }
 }

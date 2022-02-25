@@ -5,7 +5,20 @@ import com.badlogic.gdx.math.Vector2;
 
 public interface Boid {
 
-    public void update(float deltaTime);
+    public default void update(float deltaTime) {
+        updateAcceleration(deltaTime);
+        updateVelocity(deltaTime);
+        updatePosition(deltaTime);
+        updateRotation(deltaTime);
+    }
+
+    public void updateAcceleration(float deltaTime);
+
+    public void updateVelocity(float deltaTime);
+
+    public void updatePosition(float deltaTime);
+
+    public void updateRotation(float deltaTime);
 
     public void render(SpriteBatch batch);
 
@@ -20,4 +33,6 @@ public interface Boid {
     public Vector2 getAcceleration();
 
     public void setAcceleration(Vector2 acceleration);
+
+    public Boid duplicate();
 }

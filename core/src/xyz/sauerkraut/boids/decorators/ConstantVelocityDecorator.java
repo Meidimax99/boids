@@ -30,4 +30,9 @@ public class ConstantVelocityDecorator extends BoidDecorator{
         getComponent().update(deltaTime);
         //normalize velocity and multiply with factor
     }
+
+    @Override
+    public Boid duplicate() {
+        return new ConstantVelocityDecorator(this.getComponent(), fac);
+    }
 }

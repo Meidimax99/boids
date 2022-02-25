@@ -23,4 +23,9 @@ public class FollowMouseDecorator extends BoidDecorator {
         setDirectionToMouse();
         getComponent().update(deltaTime);
     }
+
+    @Override
+    public Boid duplicate() {
+        return new FollowMouseDecorator(this.getComponent());
+    }
 }
