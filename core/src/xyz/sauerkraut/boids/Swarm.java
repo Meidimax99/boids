@@ -7,10 +7,7 @@ import java.util.List;
 
 public class Swarm {
 
-    private List<Boid> boids = new LinkedList<>();
-
-    public Swarm() {
-    }
+    private final List<Boid> boids = new LinkedList<Boid>();
 
     public void addBoid(Boid boid) {
         this.boids.add(boid);
@@ -22,7 +19,7 @@ public class Swarm {
         }
     }
 
-    public void renderAll(SpriteBatch batch){
+    public void renderAll(ActualSpriteBatch batch){
         for(Boid boid : boids) {
             boid.render(batch);
         }

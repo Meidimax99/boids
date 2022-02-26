@@ -7,25 +7,20 @@ import xyz.sauerkraut.boids.decorators.BoidDecorator;
 
 public class FollowMouseDecorator extends BoidDecorator {
 
-    public FollowMouseDecorator(Boid component) {
-        super(component);
-    }
-
-
-    private void setDirectionToMouse(){
-        Vector2 componentPosition = this.getComponent().getPosition();
-        this.getComponent().getVelocity().x = Gdx.input.getX() - componentPosition.x;
-        this.getComponent().getVelocity().y = Gdx.input.getY() - componentPosition.y;
+    //TODO possibly split this decorator up in 2 -> getting mouse direction and getting mouse velocity from distance to mouse
+    public FollowMouseDecorator(Boid boid) {
+        super(boid);
     }
 
     @Override
-    public void update(float deltaTime) {
-        setDirectionToMouse();
-        getComponent().update(deltaTime);
+    public void updateVelocity(float deltaTime) {
+        Vector2 componentPosition = this.getComponent().getPosition();
+        this.getComponent().setVelocity(new Vector2(Gdx.input.getX() - componentPosition.x, Gdx.input.getY() - componentPosition.y));
+        this.getComponent().updateVelocity(deltaTime);
     }
 
     @Override
     public Boid duplicate() {
-        return new FollowMouseDecorator(this.getComponent());
+        return new FollowMouseDecorator(getComponent().duplicate());
     }
 }

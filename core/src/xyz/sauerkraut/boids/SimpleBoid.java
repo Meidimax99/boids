@@ -19,54 +19,25 @@ import java.util.Random;
  */
 public class SimpleBoid implements Boid {
 
-    //TODO Extend Sprite?
-    private Shape2D hitbox;
-    private Sprite sprite;
-    private Vector2 velocity;
-    private Vector2 acceleration;
+    //Shape2D hitbox;
+    Sprite sprite;
+    Vector2 velocity;
+    Vector2 acceleration;
 
-
-
-    public SimpleBoid(Sprite sprite, Vector2 position, Vector2 velocity) {
+    public SimpleBoid(Sprite sprite) {
         this.sprite = new Sprite(sprite);
-        this.sprite.setX(position.x);
-        this.sprite.setY(position.y);
-        this.velocity = velocity;
-        this.acceleration = new Vector2();
-
-        this.hitbox = new Circle(position, sprite.getWidth()/2);
-
-        sprite.setOrigin(sprite.getWidth() / 2, sprite.getHeight() / 2);
+        //this.hitbox = new Circle(new Vector2(sprite.getX(), sprite.getY()), sprite.getWidth()/2);
+        velocity = new Vector2();
+        acceleration = new Vector2();
+        this.sprite.setOrigin(sprite.getWidth() / 2, sprite.getHeight() / 2);
     }
 
     public SimpleBoid(Sprite sprite, Vector2 position) {
-        new SimpleBoid(sprite, position, new Vector2(0,0));
-    }
-
-    public Vector2 getPosition() {
-        return new Vector2(sprite.getX(), sprite.getY());
-    }
-
-    public void setPosition(Vector2 position) {
+        this(sprite);
         this.sprite.setX(position.x);
         this.sprite.setY(position.y);
     }
 
-    public Vector2 getVelocity() {
-        return velocity;
-    }
-
-    public void setVelocity(Vector2 velocity) {
-        this.velocity = velocity;
-    }
-
-    public Vector2 getAcceleration() {
-        return acceleration;
-    }
-
-    public void setAcceleration(Vector2 acceleration) {
-        this.acceleration = acceleration;
-    }
 
     @Override
     public void updateAcceleration(float deltaTime) {
@@ -78,11 +49,8 @@ public class SimpleBoid implements Boid {
 
     }
 
-
-    //TODO Default impl problem???
     @Override
     public void updatePosition(float deltaTime) {
-        System.out.println(this.sprite == null);
         this.sprite.setX(sprite.getX() + velocity.x * deltaTime);
         this.sprite.setY(sprite.getY() + velocity.y * deltaTime);
     }
@@ -92,29 +60,46 @@ public class SimpleBoid implements Boid {
         this.sprite.setRotation(this.velocity.angleDeg() - 90);
     }
 
-    private static void drawSprite(SpriteBatch spriteBatch, Sprite sprite) {
-        spriteBatch.draw(sprite, sprite.getX() - sprite.getOriginX(), sprite.getY() - sprite.getOriginY(), sprite.getOriginX(), sprite.getOriginY(), sprite.getWidth(), sprite.getHeight(), sprite.getScaleX(), sprite.getScaleY(), sprite.getRotation());
-    }
 
-    public void render(SpriteBatch batch) {
-        drawSprite(batch, sprite);
+    public void render(ActualSpriteBatch batch) {
+        batch.draw(sprite);
     }
 
     @Override
     public Boid duplicate() {
-        Random random = new Random();
-        Vector2 randomPosition = new Vector2(random.nextFloat()* BoidSimulation.WIDTH, random.nextFloat() * BoidSimulation.HEIGHT);
-        Boid boid = new SimpleBoid(new Sprite(sprite), randomPosition);
-        System.out.println(boid.getPosition() == null);
-        return boid;
+        return new SimpleBoid(sprite);
     }
 
-    //Add to abstract boid class - > like thread for runnable
-//    @Override
-//    public void update(float deltaTime) {
-//        updateAcceleration(deltaTime);
-//        updateVelocity(deltaTime);
-//        updatePosition(deltaTime);
-//        updateRotation(deltaTime);
-//    }
+    @Override
+    public Vector2 getAcceleration() {
+        return acceleration.cpy();
+    }
+
+    @Override
+    public void setAcceleration(Vector2 acceleration) {
+        this.acceleration.set(acceleration);
+    }
+
+    @Override
+    public Vector2 getVelocity() {
+        return velocity.cpy();
+    }
+
+    @Override
+    public void setVelocity(Vector2 velocity) {
+        this.velocity.set(velocity);
+    }
+
+    @Override
+    public Vector2 getPosition() {
+        return new Vector2(sprite.getX(),sprite.getY());
+    }
+
+    @Override
+    public void setPosition(Vector2 position) {
+        this.sprite.setX(position.x);
+        this.sprite.setY(position.y);
+    }
+
+
 }

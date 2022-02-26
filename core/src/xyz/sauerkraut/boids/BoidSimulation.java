@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.ScreenUtils;
+import xyz.sauerkraut.boids.decorators.BoidDecorator;
 import xyz.sauerkraut.boids.decorators.ConstantVelocityDecorator;
 import xyz.sauerkraut.boids.decorators.FollowMouseDecorator;
 
@@ -24,7 +25,7 @@ public class BoidSimulation extends ApplicationAdapter {
     private Swarm swarm;
     private Boid boid;
 
-    private SpriteBatch batch;
+    private ActualSpriteBatch batch;
 
     public static final int WIDTH = 1600;
     public static final int HEIGHT = 1200;
@@ -58,10 +59,11 @@ public class BoidSimulation extends ApplicationAdapter {
         boidTexture = new Texture(Gdx.files.internal("SimpleDirectionalBoid.png"));
         sprite = new Sprite(boidTexture);
 
-        batch = new SpriteBatch();
-        boid = new SimpleBoid(sprite, new Vector2(((float) WIDTH/2), (float) HEIGHT / 2 ));
+        batch = new ActualSpriteBatch();
+        boid = new FollowMouseDecorator(new ConstantVelocityDecorator(new SimpleBoid(sprite),50));
+        //boid = new SimpleBoid(sprite);
 
-        swarm = BoidFactory.swarmFromBoid(boid, 1);
+        swarm = BoidFactory.swarmFromBoid(boid, 100);
         //DEBUG
         debugRenderer = new ShapeRenderer();
     }
@@ -73,7 +75,6 @@ public class BoidSimulation extends ApplicationAdapter {
         camera.update();
         batch.setProjectionMatrix(camera.combined);
 
-        //swarm.updateAll(Gdx.graphics.getDeltaTime());
         //boid.update(Gdx.graphics.getDeltaTime());
         swarm.updateAll(Gdx.graphics.getDeltaTime());
         batch.begin();
@@ -81,12 +82,12 @@ public class BoidSimulation extends ApplicationAdapter {
         swarm.renderAll(batch);
         batch.end();
 
-       Vector2 position = new Vector2(sprite.getX(), sprite.getY());
-       Vector2 absOrigin = new Vector2(sprite.getX() + sprite.getOriginX(), sprite.getY() + sprite.getOriginY());
-       Vector2 direction = new Vector2(sprite.getX()+boid.getVelocity().x, sprite.getY()+boid.getVelocity().y);
-       drawDebugLine(new Vector2(0,0), position, camera.combined);
-       drawDebugLine(position, absOrigin, 2, Color.GREEN, camera.combined);
-       drawDebugLine(position, direction, 3, Color.BLUE, camera.combined);
+//       Vector2 position = new Vector2(sprite.getX(), sprite.getY());
+//       Vector2 absOrigin = new Vector2(sprite.getX() + sprite.getOriginX(), sprite.getY() + sprite.getOriginY());
+//       Vector2 direction = new Vector2(sprite.getX()+boid.getVelocity().x, sprite.getY()+boid.getVelocity().y);
+//       drawDebugLine(new Vector2(0,0), position, camera.combined);
+//       drawDebugLine(position, absOrigin, 2, Color.GREEN, camera.combined);
+//       drawDebugLine(position, direction, 3, Color.BLUE, camera.combined);
 
     }
 
