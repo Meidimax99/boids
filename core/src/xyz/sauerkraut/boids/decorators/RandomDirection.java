@@ -13,6 +13,7 @@ public class RandomDirection extends BoidDecorator{
         super(boid);
         Random rand = new Random();
         this.setVelocity(new Vector2(rand.nextFloat()*2-1,rand.nextFloat()*2-1));
+        this.speedFac = 1;
     }
 
     public RandomDirection(Boid boid, float speedFac) {

@@ -62,7 +62,7 @@ public class BoidSimulation extends ApplicationAdapter {
         //boid = new FollowMouseDecorator(new ConstantVelocityDecorator(new SimpleBoid(sprite),50));
         boid = new Infinite(new RandomDirection(new SimpleBoid(sprite),100));
 
-        swarm = BoidFactory.swarmFromBoid(boid, 10);
+        swarm = BoidFactory.swarmFromBoid(boid, 100000);
         //DEBUG
         debugRenderer = new ShapeRenderer();
     }
