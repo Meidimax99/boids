@@ -15,7 +15,7 @@ public class FollowMouseDecorator extends BoidDecorator {
     @Override
     public void updateVelocity(float deltaTime) {
         Vector2 componentPosition = this.getComponent().getPosition();
-        this.getComponent().setVelocity(new Vector2(Gdx.input.getX() - componentPosition.x, Gdx.input.getY() - componentPosition.y));
+        this.setVelocity(new Vector2(Gdx.input.getX() - componentPosition.x, Gdx.input.getY() - componentPosition.y));
         this.getComponent().updateVelocity(deltaTime);
     }
 

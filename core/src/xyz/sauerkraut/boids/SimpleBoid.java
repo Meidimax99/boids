@@ -39,23 +39,19 @@ public class SimpleBoid implements Boid {
     }
 
 
-    @Override
     public void updateAcceleration(float deltaTime) {
 
     }
 
-    @Override
     public void updateVelocity(float deltaTime) {
 
     }
 
-    @Override
     public void updatePosition(float deltaTime) {
         this.sprite.setX(sprite.getX() + velocity.x * deltaTime);
         this.sprite.setY(sprite.getY() + velocity.y * deltaTime);
     }
 
-    @Override
     public void updateRotation(float deltaTime) {
         this.sprite.setRotation(this.velocity.angleDeg() - 90);
     }
@@ -65,41 +61,37 @@ public class SimpleBoid implements Boid {
         batch.draw(sprite);
     }
 
-    @Override
     public Boid duplicate() {
         return new SimpleBoid(sprite);
     }
 
-    @Override
     public Vector2 getAcceleration() {
         return acceleration.cpy();
     }
 
-    @Override
     public void setAcceleration(Vector2 acceleration) {
         this.acceleration.set(acceleration);
     }
 
-    @Override
     public Vector2 getVelocity() {
         return velocity.cpy();
     }
 
-    @Override
     public void setVelocity(Vector2 velocity) {
         this.velocity.set(velocity);
     }
 
-    @Override
     public Vector2 getPosition() {
         return new Vector2(sprite.getX(),sprite.getY());
     }
 
-    @Override
     public void setPosition(Vector2 position) {
         this.sprite.setX(position.x);
         this.sprite.setY(position.y);
     }
 
-
+    @Override
+    public Vector2 getDimensions() {
+        return new Vector2(sprite.getWidth(),sprite.getHeight());
+    }
 }

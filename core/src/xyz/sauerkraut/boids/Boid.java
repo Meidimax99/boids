@@ -37,4 +37,6 @@ public interface Boid {
 
     public void setPosition(Vector2 position);
 
+    public Vector2 getDimensions();
+
 }

@@ -11,9 +11,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.ScreenUtils;
-import xyz.sauerkraut.boids.decorators.BoidDecorator;
-import xyz.sauerkraut.boids.decorators.ConstantVelocityDecorator;
-import xyz.sauerkraut.boids.decorators.FollowMouseDecorator;
+import xyz.sauerkraut.boids.decorators.*;
 
 import java.util.Random;
 
@@ -60,10 +58,11 @@ public class BoidSimulation extends ApplicationAdapter {
         sprite = new Sprite(boidTexture);
 
         batch = new ActualSpriteBatch();
-        boid = new FollowMouseDecorator(new ConstantVelocityDecorator(new SimpleBoid(sprite),50));
-        //boid = new SimpleBoid(sprite);
 
-        swarm = BoidFactory.swarmFromBoid(boid, 100);
+        //boid = new FollowMouseDecorator(new ConstantVelocityDecorator(new SimpleBoid(sprite),50));
+        boid = new Infinite(new RandomDirection(new SimpleBoid(sprite),100));
+
+        swarm = BoidFactory.swarmFromBoid(boid, 10);
         //DEBUG
         debugRenderer = new ShapeRenderer();
     }

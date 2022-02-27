@@ -5,7 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import xyz.sauerkraut.boids.ActualSpriteBatch;
 import xyz.sauerkraut.boids.Boid;
 
-public class BoidDecorator implements Boid {
+public abstract class BoidDecorator implements Boid {
 
     private Boid component;
 
@@ -19,9 +19,7 @@ public class BoidDecorator implements Boid {
     }
 
     @Override
-    public Boid duplicate() {
-        return new BoidDecorator(component.duplicate());
-    }
+    public abstract Boid duplicate();
 
     @Override
     public void updateAcceleration(float deltaTime) {
@@ -79,5 +77,10 @@ public class BoidDecorator implements Boid {
 
     protected void setComponent(Boid component) {
         this.component = component;
+    }
+
+    @Override
+    public Vector2 getDimensions() {
+        return this.component.getDimensions();
     }
 }
