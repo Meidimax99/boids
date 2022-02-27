@@ -36,7 +36,7 @@ public class BoidSimulation extends ApplicationAdapter {
 
         batch = new ActualSpriteBatch();
 
-        Boid boid = new Infinite(new RandomDirection(new SimpleBoid(sprite), 100));
+        Boid boid = (new Infinite(new RandomDirection(new SimpleBoid(sprite), 1000)));
 
         swarm = BoidFactory.swarmFromBoid(boid, 100000);
 
