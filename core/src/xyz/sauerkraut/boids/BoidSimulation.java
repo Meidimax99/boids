@@ -2,18 +2,12 @@ package xyz.sauerkraut.boids;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Matrix4;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.ScreenUtils;
-import xyz.sauerkraut.boids.decorators.*;
-
-import java.util.Random;
+import xyz.sauerkraut.boids.decorators.Infinite;
+import xyz.sauerkraut.boids.decorators.RandomDirection;
 
 public class BoidSimulation extends ApplicationAdapter {
 
@@ -21,7 +15,6 @@ public class BoidSimulation extends ApplicationAdapter {
     private Texture boidTexture;
 
     private Swarm swarm;
-    private Boid boid;
 
     private ActualSpriteBatch batch;
 
@@ -29,22 +22,6 @@ public class BoidSimulation extends ApplicationAdapter {
     public static final int HEIGHT = 1200;
 
     Sprite sprite;
-
-    private static ShapeRenderer debugRenderer;
-
-    public static void drawDebugLine(Vector2 start, Vector2 end, int lineWidth, Color color, Matrix4 projectionMatrix) {
-        Gdx.gl.glLineWidth(lineWidth);
-        debugRenderer.setProjectionMatrix(projectionMatrix);
-        debugRenderer.begin(ShapeRenderer.ShapeType.Line);
-        debugRenderer.setColor(color);
-        debugRenderer.line(start, end);
-        debugRenderer.end();
-        Gdx.gl.glLineWidth(1);
-    }
-
-    public static void drawDebugLine(Vector2 start, Vector2 end, Matrix4 projectionMatrix) {
-        drawDebugLine(start,end,2,Color.RED,projectionMatrix);
-    }
 
     @Override
     public void create() {
@@ -59,35 +36,22 @@ public class BoidSimulation extends ApplicationAdapter {
 
         batch = new ActualSpriteBatch();
 
-        //boid = new FollowMouseDecorator(new ConstantVelocityDecorator(new SimpleBoid(sprite),50));
-        boid = new Infinite(new RandomDirection(new SimpleBoid(sprite),100));
+        Boid boid = new Infinite(new RandomDirection(new SimpleBoid(sprite), 100));
 
         swarm = BoidFactory.swarmFromBoid(boid, 100000);
-        //DEBUG
-        debugRenderer = new ShapeRenderer();
+
     }
 
     @Override
     public void render() {
-        Random random = new Random();
         ScreenUtils.clear(0f,0f,0f, 1);
         camera.update();
         batch.setProjectionMatrix(camera.combined);
 
-        //boid.update(Gdx.graphics.getDeltaTime());
         swarm.updateAll(Gdx.graphics.getDeltaTime());
         batch.begin();
-        //boid.render(batch);
         swarm.renderAll(batch);
         batch.end();
-
-//       Vector2 position = new Vector2(sprite.getX(), sprite.getY());
-//       Vector2 absOrigin = new Vector2(sprite.getX() + sprite.getOriginX(), sprite.getY() + sprite.getOriginY());
-//       Vector2 direction = new Vector2(sprite.getX()+boid.getVelocity().x, sprite.getY()+boid.getVelocity().y);
-//       drawDebugLine(new Vector2(0,0), position, camera.combined);
-//       drawDebugLine(position, absOrigin, 2, Color.GREEN, camera.combined);
-//       drawDebugLine(position, direction, 3, Color.BLUE, camera.combined);
-
     }
 
     @Override
