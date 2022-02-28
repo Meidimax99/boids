@@ -1,27 +1,15 @@
 package xyz.sauerkraut.boids;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-
-import java.util.LinkedList;
 import java.util.List;
 
-public class Swarm {
+public interface Swarm {
 
-    private final List<Boid> boids = new LinkedList<Boid>();
 
-    public void addBoid(Boid boid) {
-        this.boids.add(boid);
-    }
+    public void addBoid(Boid boid);
 
-    public void updateAll(float deltaTime){
-        for(Boid boid : boids) {
-            boid.update(deltaTime);
-        }
-    }
+    public void updateAll(float deltaTime);
 
-    public void renderAll(ActualSpriteBatch batch){
-        for(Boid boid : boids) {
-            boid.render(batch);
-        }
-    }
+    public void renderAll(ActualSpriteBatch batch);
+
+    public List<Boid> getBoids();
 }

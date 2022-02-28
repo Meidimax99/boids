@@ -39,4 +39,12 @@ public interface Boid {
 
     public Vector2 getDimensions();
 
+    public void setSwarm(Swarm swarm);
+
+    public Swarm getSwarm();
+
+    public float getRadius();
+
+    public void setRadius(float radius);
+
 }

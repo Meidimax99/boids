@@ -3,6 +3,7 @@ package xyz.sauerkraut.boids.decorators;
 import com.badlogic.gdx.math.Vector2;
 import xyz.sauerkraut.boids.ActualSpriteBatch;
 import xyz.sauerkraut.boids.Boid;
+import xyz.sauerkraut.boids.Swarm;
 
 public abstract class BoidDecorator implements Boid {
 
@@ -68,5 +69,25 @@ public abstract class BoidDecorator implements Boid {
 
     public Vector2 getDimensions() {
         return this.component.getDimensions();
+    }
+
+    @Override
+    public void setSwarm(Swarm swarm) {
+        component.setSwarm(swarm);
+    }
+
+    @Override
+    public Swarm getSwarm() {
+        return component.getSwarm();
+    }
+
+    @Override
+    public float getRadius() {
+        return component.getRadius();
+    }
+
+    @Override
+    public void setRadius(float radius) {
+        component.setRadius(radius);
     }
 }

@@ -19,17 +19,19 @@ import java.util.Random;
  */
 public class SimpleBoid implements Boid {
 
-    //Shape2D hitbox;
     Sprite sprite;
     Vector2 velocity;
     Vector2 acceleration;
+    Swarm swarm;
+
+    private float radius;
 
     public SimpleBoid(Sprite sprite) {
         this.sprite = new Sprite(sprite);
-        //this.hitbox = new Circle(new Vector2(sprite.getX(), sprite.getY()), sprite.getWidth()/2);
         velocity = new Vector2();
         acceleration = new Vector2();
         this.sprite.setOrigin(sprite.getWidth() / 2, sprite.getHeight() / 2);
+        radius = Float.max(sprite.getWidth(), sprite.getHeight())/2;
     }
 
     public SimpleBoid(Sprite sprite, Vector2 position) {
@@ -44,7 +46,7 @@ public class SimpleBoid implements Boid {
     }
 
     public void updateVelocity(float deltaTime) {
-
+        velocity.add(acceleration.scl(deltaTime));
     }
 
     public void updatePosition(float deltaTime) {
@@ -55,7 +57,6 @@ public class SimpleBoid implements Boid {
     public void updateRotation(float deltaTime) {
         this.sprite.setRotation(this.velocity.angleDeg() - 90);
     }
-
 
     public void render(ActualSpriteBatch batch) {
         batch.draw(sprite);
@@ -93,5 +94,25 @@ public class SimpleBoid implements Boid {
     @Override
     public Vector2 getDimensions() {
         return new Vector2(sprite.getWidth(),sprite.getHeight());
+    }
+
+    @Override
+    public void setSwarm(Swarm swarm) {
+        this.swarm = swarm;
+    }
+
+    @Override
+    public Swarm getSwarm() {
+        return swarm;
+    }
+
+    @Override
+    public float getRadius() {
+        return radius;
+    }
+
+    @Override
+    public void setRadius(float radius) {
+        this.radius = radius;
     }
 }

@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.utils.ScreenUtils;
+import xyz.sauerkraut.boids.decorators.Collision;
 import xyz.sauerkraut.boids.decorators.Infinite;
 import xyz.sauerkraut.boids.decorators.RandomDirection;
 
@@ -14,7 +15,7 @@ public class BoidSimulation extends ApplicationAdapter {
     private OrthographicCamera camera;
     private Texture boidTexture;
 
-    private Swarm swarm;
+    private SimpleSwarm simpleSwarm;
 
     private ActualSpriteBatch batch;
 
@@ -36,9 +37,9 @@ public class BoidSimulation extends ApplicationAdapter {
 
         batch = new ActualSpriteBatch();
 
-        Boid boid = (new Infinite(new RandomDirection(new SimpleBoid(sprite), 1000)));
+        Boid boid = new Collision(new Infinite(new RandomDirection(new SimpleBoid(sprite), 100)),100);
 
-        swarm = BoidFactory.swarmFromBoid(boid, 100000);
+        simpleSwarm = BoidFactory.swarmFromBoid(boid, 1000);
 
     }
 
@@ -48,9 +49,9 @@ public class BoidSimulation extends ApplicationAdapter {
         camera.update();
         batch.setProjectionMatrix(camera.combined);
 
-        swarm.updateAll(Gdx.graphics.getDeltaTime());
+        simpleSwarm.updateAll(Gdx.graphics.getDeltaTime());
         batch.begin();
-        swarm.renderAll(batch);
+        simpleSwarm.renderAll(batch);
         batch.end();
     }
 
